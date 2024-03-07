@@ -1,0 +1,39 @@
+
+.ruta{
+    width: 100px;
+    height: 100px;
+    opacity: 50%;
+    background-color: gray;
+    line-height: 75px;
+    font-size: 75px;
+    transform: translateY(130%);
+}
+
+
+
+.ruta[rutaIndex="0"] {
+    border-top-left-radius: 10px;
+}
+
+.ruta[rutaIndex="2"] {
+    border-top-right-radius: 10px;
+}
+
+.ruta[rutaIndex="6"] {
+    border-bottom-left-radius: 10px;
+}
+
+.ruta[rutaIndex="8"] {
+    border-bottom-right-radius: 10px;
+}
+#gameContainer{
+    text-align: center;
+}
+
+#rutaContainer{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    width: 320px;
+    height: 320px;
+    margin: auto;
+}

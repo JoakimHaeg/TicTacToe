@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Tac-Tac-Toe</title>
+        <link rel="stylesheet" href="ruta.css"/>
+        <link rel="stylesheet" href="transition.css"/>
+        <script src="transition.js" defer></script>
+    </head>
+
+    <body data-barba="wrapper">
+        <div class="load-container">
+            <div class="loading-screen"></div>
+        </div>
+
+        <main data-barba="container" data-barba-namespace="game-section">
+            <div class="header">
+                <div id="gameContainer">
+                    <h1>Tre I Rad</h1>
+                    <h3 id="pVX"></h3> <!-- Player versus X-->
+                <div id="rutaContainer">
+                    <div rutaIndex="0" class="ruta"></div><!-- Top left-->
+                    <div rutaIndex="1" class="ruta"></div>
+                    <div rutaIndex="2" class="ruta"></div> <!-- Top Right-->
+                    <div rutaIndex="3" class="ruta"></div>
+                    <div rutaIndex="4" class="ruta"></div>
+                    <div rutaIndex="5" class="ruta"></div>
+                    <div rutaIndex="6" class="ruta"></div> <!-- Bottom Left-->
+                    <div rutaIndex="7" class="ruta"></div>
+                    <div rutaIndex="8" class="ruta"></div> <!-- Bottom Right-->
+                </div>
+                    <h3 id="status"></h3> <!-- Vems tur det är och/eller om någon har vunnit-->
+                </div>
+                <div class="animate-this button">
+                    <a href="index.html">go back to home</a>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+</html>
