@@ -1,0 +1,72 @@
+/* game Container*/
+#gameContainer{
+    text-align: center;
+}
+
+/* text/button */
+.stat{
+    font-size: 300%;
+    position: absolute;
+    top: 47.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.restart{
+    all: unset; 
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    color: white;
+    border: 1px solid white;
+    padding: 24px 40px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 10px;
+    transition: 0.3s;
+}
+
+.restart:hover{
+    background: white;
+    color: #161616;
+    transition: 0.3s;
+}
+
+/* Rutor */
+.ruta{
+    width: 100px;
+    height: 100px;
+    opacity: 50%;
+    background-color: gray;
+    line-height: 75px;
+    font-size: 75px;
+    transform: translateY(130%);
+}
+
+.ruta[rutaIndex="00"] {
+    border-top-left-radius: 10px;
+}
+
+.ruta[rutaIndex="02"] {
+    border-top-right-radius: 10px;
+}
+
+.ruta[rutaIndex="20"] {
+    border-bottom-left-radius: 10px;
+}
+
+.ruta[rutaIndex="22"] {
+    border-bottom-right-radius: 10px;
+}
+
+
+#rutaContainer{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    width: 320px;
+    height: 320px;
+    margin: auto;
+}

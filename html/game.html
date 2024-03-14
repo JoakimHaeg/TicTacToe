@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Tac-Tac-Toe</title>
-        <link rel="stylesheet" href="/src/css/ruta.css"/>
+        <link rel="stylesheet" href="/src/css/gameCont.css"/>
         <link rel="stylesheet" href="/src/css/transition.css"/>
         <script src="/src/js/transition.js" defer></script> <!-- Defer innebär att scriptsen kör när all html är laddad-->
         <script src="/src/js/logic.js" defer></script>
@@ -21,21 +21,24 @@
                         Tre I Rad
                     </h1>
                     <h3 id="pVX"> </h3> <!-- Player versus X-->
-                <div id="rutaContainer">
-                    <div rutaIndex="00" class="ruta"></div><!-- Top left-->
-                    <div rutaIndex="01" class="ruta"></div>
-                    <div rutaIndex="02" class="ruta"></div> <!-- Top Right-->
-                    <div rutaIndex="10" class="ruta"></div>
-                    <div rutaIndex="11" class="ruta"></div>
-                    <div rutaIndex="12" class="ruta"></div>
-                    <div rutaIndex="20" class="ruta"></div> <!-- Bottom Left-->
-                    <div rutaIndex="21" class="ruta"></div>
-                    <div rutaIndex="22" class="ruta"></div> <!-- Bottom Right-->
-                </div>
-                    <h3 id="status"></h3> <!-- Vems tur det är och/eller om någon har vunnit-->
-                </div>
-                <div class="animate-this button">
-                    <a href="/html/index.html">go back to home</a>
+                    <div id="rutaContainer" class="title animate-this">
+                        <div id="00" rutaIndex="00" onclick="clickedCell(this)" class="ruta"></div><!-- Top left-->
+                        <div id="01" rutaIndex="01" onclick="clickedCell(this)" class="ruta"></div>
+                        <div id="02" onclick="clickedCell(this)" rutaIndex="02" class="ruta"></div> <!-- Top Right-->
+                        <div id="10" onclick="clickedCell(this)" rutaIndex="10" class="ruta"></div>
+                        <div id="11" onclick="clickedCell(this)" rutaIndex="11" class="ruta"></div>
+                        <div id="12" onclick="clickedCell(this)" rutaIndex="12" class="ruta"></div>
+                        <div id="20" onclick="clickedCell(this)" rutaIndex="20" class="ruta"></div> <!-- Bottom Left-->
+                        <div id="21" onclick="clickedCell(this)" rutaIndex="21" class="ruta"></div>
+                        <div id="22" onclick="clickedCell(this)" rutaIndex="22" class="ruta"></div> <!-- Bottom Right-->
+                    </div>
+                    <div>
+                        <h3 id="status" class="stat"></h3> <!-- Vems tur det är och/eller om någon har vunnit-->
+                    </div>
+                    <input type="button" class="animate-this restart" value="Start AI" id="bnt-restart" onclick="restartBnt(this)"/>
+                    <div class="animate-this button">
+                        <a href="/html/index.html">go back to home</a>
+                    </div>
                 </div>
             </div>
         </main>

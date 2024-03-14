@@ -198,11 +198,11 @@ function clickedCell(cell) {
 			cell.style.color = "red";
 		}
 
-		msg = document.getElementById("message");
+		msg = document.getElementById("status");
 		msg.innerHTML = "You lose!";
 	}
 	if (emptyCells(board).length == 0 && !gameOverAll(board)) {
-		let msg = document.getElementById("message");
+		let msg = document.getElementById("status");
 		msg.innerHTML = "Draw!";
 	}
 	if (gameOverAll(board) == true || emptyCells(board).length == 0) {
@@ -230,7 +230,7 @@ function restartBnt(button) {
 			}
 		}
 		button.value = "Start AI";
-		msg = document.getElementById("message");
+		msg = document.getElementById("status");
 		msg.innerHTML = "";
 	}
 }
