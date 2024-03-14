@@ -11,19 +11,19 @@
 
 
 
-.ruta[rutaIndex="0"] {
+.ruta[rutaIndex="00"] {
     border-top-left-radius: 10px;
 }
 
-.ruta[rutaIndex="2"] {
+.ruta[rutaIndex="02"] {
     border-top-right-radius: 10px;
 }
 
-.ruta[rutaIndex="6"] {
+.ruta[rutaIndex="20"] {
     border-bottom-left-radius: 10px;
 }
 
-.ruta[rutaIndex="8"] {
+.ruta[rutaIndex="22"] {
     border-bottom-right-radius: 10px;
 }
 #gameContainer{

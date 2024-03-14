@@ -23,7 +23,7 @@ function pageTransition() {
         ease: "Expo.easeInOut",
         delay: 0.3,
     });
-    tl.set(".loading-screen", { left: "-100%" });
+    tl.set(".loading-screen", { left: "100%" });
 }
 
 function contentAnimation() {
