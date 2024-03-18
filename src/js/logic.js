@@ -1,9 +1,7 @@
-/*Code of Minmax here*/
-
 let board = [
-	[0, 0, 0],
-	[0, 0, 0],
-	[0, 0, 0],
+	[0, 0, 0], // Y = 0
+	[0, 0, 0], // Y = 1
+	[0, 0, 0], // Y = 2
 ];
 
 let HUMAN = -1;
@@ -56,21 +54,21 @@ function gameOverAll(state) {
 	return gameOver(state, HUMAN) || gameOver(state, COMP);
 }
 
-function emptyCells(state) {
-	let cells = [];
+function tommarutor(state) {
+	let rutor = [];
 	for (let x = 0; x < 3; x++) {
 		for (let y = 0; y < 3; y++) {
 			if (state[x][y] == 0)
-				cells.push([x, y]);
+				rutor.push([x, y]);
 		}
 	}
 
-	return cells;
+	return rutor;
 }
 
-/* A move is valid if the chosen cell is empty */
+/* A move is valid if the chosen ruta is empty */
 function validMove(x, y) {
-	let empties = emptyCells(board);
+	let empties = tommarutor(board);
 	try {
 		if (board[x][y] == 0) {
 			return true;
@@ -111,11 +109,11 @@ function minimax(state, depth, player) {
 		return [-1, -1, score];
 	}
 
-	emptyCells(state).forEach(function (cell) {
-		let x = cell[0];
-		let y = cell[1];
+	tommarutor(state).forEach(function (ruta) {
+		let x = ruta[0];
+		let y = ruta[1];
 		state[x][y] = player;
-		let score = minimax(state, depth - 1, -player);
+		let score = minimax(state, depth, -player);
 		state[x][y] = 0;
 		score[0] = x;
 		score[1] = y;
@@ -137,43 +135,51 @@ function minimax(state, depth, player) {
 function aiTurn() {
 	let x, y;
 	let move;
-	let cell;
+	let ruta;
 
-	if (emptyCells(board).length == 9) {
+	if (tommarutor(board).length == 9) {
 		x = parseInt(Math.random() * 3);
 		y = parseInt(Math.random() * 3);
 	}
 	else {
-		move = minimax(board, emptyCells(board).length, COMP);
+		move = minimax(board, tommarutor(board).length, COMP);
 		x = move[0];
 		y = move[1];
 	}
 
 	if (setMove(x, y, COMP)) {
-		cell = document.getElementById(String(x) + String(y));
-		cell.innerHTML = "O";
+		ruta = document.getElementById(String(x) + String(y));
+		ruta.innerHTML = "O";
 	}
 }
 
 /* main */
-function clickedCell(cell) {
-	let button = document.getElementById("bnt-restart");
+function clickedruta(ruta) {
+	let button = document.getElementById("btn-restart");
 	button.disabled = true;
-	let conditionToContinue = gameOverAll(board) == false && emptyCells(board).length > 0;
+	let conditionToContinue = gameOverAll(board) == false && tommarutor(board).length > 0;
 
 	if (conditionToContinue == true) {
-		let x = cell.id.split("")[0];
-		let y = cell.id.split("")[1];
+		let x = ruta.id.split("")[0];
+		let y = ruta.id.split("")[1];
 		let move = setMove(x, y, HUMAN);
 		if (move == true) {
-			cell.innerHTML = "X";
+			ruta.innerHTML = "X";
+			// Kollar om spelaren har vunnit
+			if (gameOver(board, HUMAN)) {
+                let msg = document.getElementById("status");
+                msg.innerHTML = "You win!";
+                button.value = "Restart";
+                button.disabled = false;
+                return;
+			}
 			if (conditionToContinue)
 				aiTurn();
 		}
 	}
 	if (gameOver(board, COMP)) {
 		let lines;
-		let cell;
+		let ruta;
 		let msg;
 
 		if (board[0][0] == 1 && board[0][1] == 1 && board[0][2] == 1)
@@ -194,33 +200,35 @@ function clickedCell(cell) {
 			lines = [[2, 0], [1, 1], [0, 2]];
 
 		for (let i = 0; i < lines.length; i++) {
-			cell = document.getElementById(String(lines[i][0]) + String(lines[i][1]));
-			cell.style.color = "red";
+			ruta = document.getElementById(String(lines[i][0]) + String(lines[i][1]));
+			ruta.style.color = "red";
 		}
 
 		msg = document.getElementById("status");
 		msg.innerHTML = "You lose!";
 	}
-	if (emptyCells(board).length == 0 && !gameOverAll(board)) {
+	// Kollar om spelet är över.
+	if (tommarutor(board).length == 0 && !gameOverAll(board)) {
 		let msg = document.getElementById("status");
 		msg.innerHTML = "Draw!";
 	}
-	if (gameOverAll(board) == true || emptyCells(board).length == 0) {
+	// Om rundan är över, ge möjligheten till spelaren att starta om.
+	if (gameOverAll(board) == true || tommarutor(board).length == 0) {
 		button.value = "Restart";
 		button.disabled = false;
 	}
 }
 
-/* Restart the game*/
-function restartBnt(button) {
+// Starta om spelet
+function restartBtn(button) {
 	if (button.value == "Start AI") {
 		aiTurn();
 		button.disabled = true;
-	}
-	else if (button.value == "Restart") {
+	} else if (button.value == "Restart") {
 		let htmlBoard;
 		let msg;
-
+/* Om man startar om matchen ska den tömma alla rutor.
+Exempelvis i början så är x = 0 och y = 0, därav tömms rutan 00. */
 		for (let x = 0; x < 3; x++) {
 			for (let y = 0; y < 3; y++) {
 				board[x][y] = 0;
@@ -234,4 +242,3 @@ function restartBnt(button) {
 		msg.innerHTML = "";
 	}
 }
-//t
