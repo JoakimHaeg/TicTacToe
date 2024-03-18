@@ -234,3 +234,4 @@ function restartBnt(button) {
 		msg.innerHTML = "";
 	}
 }
+//t
