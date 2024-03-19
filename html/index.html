@@ -3,8 +3,10 @@
     <head>
         <meta charset="utf-8" />
         <title>Tic-Tac-Toe</title>
-        <link rel="stylesheet" href="/src/css/ruta.css"/><!-- Måste inkludera ruta.css för att få med dit i övergången-->
+        <link rel="stylesheet" href="/src/css/gameCont.css"/><!-- Måste inkludera gameCont.css för att få med dit i övergången-->
+        <link rel="stylesheet" href="/src/css/homeTXT.css"/>
         <link rel="stylesheet" href="/src/css/transition.css"/>
+        <script src="/src/js/homePage.js" defer></script>
     </head>
 
     <body data-barba="wrapper">
@@ -15,10 +17,18 @@
         <main data-barba="container" data-barba-namespace="home-section">
             <div class="header">
                 <h1 class="title animate-this">
-                    home page
+                    Tre I rad
                 </h1>
-                <div class="animate-this button">
-                    <a href="/html/game.html">Start game</a>
+                <h2 class="animate-this txt">
+                    Välkommen till tre i rad, vill du spela mot en dator eller en kompis?
+                </h2>
+                <div class="btn-container">
+                    <input type="button" class="btn animate-this" value="Ja" id="btnYes" onclick="showStartButton()"/>
+                    <input type="button" class="btn animate-this" value="Nej" id="btnNo" onclick="showStartButton()"/>
+                </div>
+                
+                <div class="animate-this button" id="btnStartContainer">
+                    <a href="/html/game.html" id="btnStart">Start game</a>
                 </div>
             </div>
         </main>
