@@ -290,3 +290,21 @@ Exempelvis i början så är x = 0 och y = 0, därav tömms rutan 00. */
 		msg.innerHTML = "";
 	}
 }
+
+// När man trycker på "go back to home page" så behöver man nollställa spelets nuvarande
+function clearBoardAndRedirect() {
+    clearBoard(); // Call the function to clear the board
+
+    // Manually redirect to the href specified in the anchor tag
+}
+
+function clearBoard() {
+    for (let x = 0; x < 3; x++) {
+        for (let y = 0; y < 3; y++) {
+            board[x][y] = 0;
+            let htmlBoard = document.getElementById(String(x) + String(y));
+            htmlBoard.style.color = "#444";
+            htmlBoard.innerHTML = "";
+        }
+    }
+}
