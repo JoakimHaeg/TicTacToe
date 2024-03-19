@@ -6,24 +6,25 @@ let board = [
 
 let HUMAN = -1;
 let COMP = +1;
-
-/* Function to heuristic evaluation of state. */
-function evalute(state) {
+let difficulty = 3;
+/* Funktion som kollar det bästa resultatet för minimax algoritmen, 
+datorn tänker vad resultatet blir efter varenda drag som den gör. */
+function evaluate(state) {
 	let score = 0;
 
-	if (gameOver(state, COMP)) {
+	if (gameOver(state, COMP)) { // Om datorn har det mest gynnsamma resultatet så ger den +1 i poäng
 		score = +1;
-	}
-	else if (gameOver(state, HUMAN)) {
+	} 
+	else if (gameOver(state, HUMAN)) { // Om spelaren har det mest gynnsamma resultatet så ger den -1 i poäng
 		score = -1;
-	} else {
+	} else { // Annars 0
 		score = 0;
 	}
-
+	// Returnerar resultatet till den som fråga.
 	return score;
 }
 
-/* This function tests if a specific player wins */
+// Funktion som kollar om det finns en vinnare
 function gameOver(state, player) {
 	let win_state = [
 		[state[0][0], state[0][1], state[0][2]],
@@ -34,8 +35,11 @@ function gameOver(state, player) {
 		[state[0][2], state[1][2], state[2][2]],
 		[state[0][0], state[1][1], state[2][2]],
 		[state[2][0], state[1][1], state[0][2]],
-	];
-
+	]; // Alla möjliga resultat
+	/* Om en linje innehåller samma spelare så returnerar den true 
+	(Någon har vunnit, den som har vunnit kollas vid gameOverAll).
+	Ex, när i = 0 och j = 0, kollar den om det finns en spelare där, sedan forsätter den.
+	Om det finns en spelare på vardera ruta i linjen så returnerar den true då filled har blivit 3. */
 	for (let i = 0; i < 8; i++) {
 		let line = win_state[i];
 		let filled = 0;
@@ -49,11 +53,11 @@ function gameOver(state, player) {
 	return false;
 }
 
-/* This function test if the human or computer wins */
+/* Här kollar man om spelaren eller datorn har vunnit, om inte, returnera false, alltså spelet forsätter. */
 function gameOverAll(state) {
 	return gameOver(state, HUMAN) || gameOver(state, COMP);
 }
-
+/* Här skapar man en array av alla tomma rutor med korresponderande x och y värde. */
 function tommarutor(state) {
 	let rutor = [];
 	for (let x = 0; x < 3; x++) {
@@ -66,9 +70,8 @@ function tommarutor(state) {
 	return rutor;
 }
 
-/* A move is valid if the chosen ruta is empty */
+/* Ett drag är acceptabelt om rutan är tom. */
 function validMove(x, y) {
-	let empties = tommarutor(board);
 	try {
 		if (board[x][y] == 0) {
 			return true;
@@ -81,7 +84,7 @@ function validMove(x, y) {
 	}
 }
 
-/* Set the move on board, if the coordinates are valid */
+/* Funktion som kollar ifall om ett drag är acceptabelt, om inte så kommer inget placeras på rutan. */
 function setMove(x, y, player) {
 	if (validMove(x, y)) {
 		board[x][y] = player;
@@ -92,137 +95,182 @@ function setMove(x, y, player) {
 	}
 }
 
-/* *** AI function that choice the best move *** */
-// Read more on https://github.com/Cledersonbc/tic-tac-toe-minimax/
+// Ren jävla magi, funktion som använder sig av algoritmen "minimax" vilket undersöker spelets djup.
 function minimax(state, depth, player) {
-	let best;
+    let best;
+	// Justera djupet beroende på vilken svårighetsgrad spelaren har valt.
+    let maxDepth = 0;
+    if (difficulty === 1) {
+        maxDepth = 1; // Easy.
+    } else if (difficulty === 2) {
+        maxDepth = 5; // Medium.
+    } else if (difficulty === 3) {
+        maxDepth = 9; // Hard.
+    }
 
-	if (player == COMP) {
-		best = [-1, -1, -1000];
-	}
-	else {
-		best = [-1, -1, +1000];
-	}
+	//
+    if (player == COMP) {
+        best = [-1, -1, -1000]; /* Här säger man till minimax att det bästa draget är vid x = -1 och y = -1 som har ett väldigt lågt poäng.
+		Man gör det för att initiera algoritmen för att progressivt leta efter det bästa valet*/
+    }
+    else { /* Här sätter man att spelaren har placerat ett skit bra drag, detta är för att man ska
+	lura minimax och få den att vilja reducera spelarens poäng genom att välja det bästa draget.*/
+        best = [-1, -1, +1000];
+    }
+	/* Om djupet är uppnåd eller om spelet är över, 
+	sätt x = -1 och y = -1 som en platshållare och poäng utifrån funktionen evaluate.
+	*/
+    if (depth == 0 || gameOverAll(state)) { 
+        let score = evaluate(state);
+        return [-1, -1, score];
+    }
 
-	if (depth == 0 || gameOverAll(state)) {
-		let score = evalute(state);
-		return [-1, -1, score];
-	}
+    // Här sker justeringen av djupet.
+    if (depth > maxDepth) {
+        depth = maxDepth;
+    }
+	// Loopar igenom alla tomma rutor.
+    tommarutor(state).forEach(function (ruta) {
+        let x = ruta[0]; // Hämtar rad.
+        let y = ruta[1]; // Hämtar kolumn.
+        state[x][y] = player; // -1 eller +1, spelaren eller datorn, ändrar berörda rutan till +1.
+        let score = minimax(state, depth - 1, -player); // Värdera nästa drag med ett nytt tillstånd och minskat djupet.
+        state[x][y] = 0; // Startar om allt efter att ha värderat ett potentiellt resultat
+        score[0] = x; // Updatera koorditantera till nuvarande ruta innan den byter till nästa.
+        score[1] = y; // Samma som ovan.
 
-	tommarutor(state).forEach(function (ruta) {
-		let x = ruta[0];
-		let y = ruta[1];
-		state[x][y] = player;
-		let score = minimax(state, depth, -player);
-		state[x][y] = 0;
-		score[0] = x;
-		score[1] = y;
-
-		if (player == COMP) {
-			if (score[2] > best[2])
-				best = score;
-		}
-		else {
-			if (score[2] < best[2])
-				best = score;
-		}
-	});
-
-	return best;
+		// Updaterar det bästa draget relativt till spelaren
+        if (player == COMP) {
+            if (score[2] > best[2]) // Om poängen är bättre än den nuvarande bästa poängen, uppdatera det bästa draget
+                best = score;
+        }
+        else {
+            if (score[2] < best[2]) // Om poängen är sämre än den nuvarande bästa poängen, uppdatera det bästa draget
+                best = score;
+        }
+    });
+	// Returnerar det bästa draget som hittades
+    return best;
 }
-
-/* It calls the minimax function */
-function aiTurn() {
+// Funktion för att behandla datorns rutor.
+function computerTurn() {
 	let x, y;
 	let move;
 	let ruta;
 
+	// Om det bara finns tomma rutor (Spelare valde att roboten skulle starta) så väljer roboten en ruta av rena slumpen.
 	if (tommarutor(board).length == 9) {
 		x = parseInt(Math.random() * 3);
 		y = parseInt(Math.random() * 3);
 	}
+	// Annars, använda minimax algoritmen.
 	else {
-		move = minimax(board, tommarutor(board).length, COMP);
-		x = move[0];
-		y = move[1];
+		move = minimax(board, tommarutor(board).length, COMP); // Få bästa val
+		x = move[0]; // Ta ut x-värdet, rad.
+		y = move[1]; // Ta ut y-värdet, kolumn.
 	}
-
+	// Uppdatera rutan som datorn valde med ett O.
 	if (setMove(x, y, COMP)) {
 		ruta = document.getElementById(String(x) + String(y));
 		ruta.innerHTML = "O";
 	}
 }
 
-/* main */
+// Funktion för att behandla spelarens ruta (som spelaren tröck på).
 function clickedruta(ruta) {
-	let button = document.getElementById("btn-restart");
-	button.disabled = true;
-	let conditionToContinue = gameOverAll(board) == false && tommarutor(board).length > 0;
-
-	if (conditionToContinue == true) {
-		let x = ruta.id.split("")[0];
-		let y = ruta.id.split("")[1];
-		let move = setMove(x, y, HUMAN);
-		if (move == true) {
-			ruta.innerHTML = "X";
-			// Kollar om spelaren har vunnit
-			if (gameOver(board, HUMAN)) {
+    let button = document.getElementById("btn-restart");
+    button.disabled = true;
+    let conditionToContinue = gameOverAll(board) == false && tommarutor(board).length > 0;
+	// Om spelet är igång, hämta information om den ruta spelaren klickade på och ändra till X
+    if (conditionToContinue == true) {
+        let x = ruta.id.split("")[0];
+        let y = ruta.id.split("")[1];
+        let move = setMove(x, y, HUMAN);
+        if (move == true) {
+            ruta.innerHTML = "X";
+            // Kollar om spelaren har vunnit efter hens tur.
+            if (gameOver(board, HUMAN)) {
                 let msg = document.getElementById("status");
                 msg.innerHTML = "You win!";
+                // Om spelaren vinner, ändra färgen på vinnande linjen till grön.
+                let lines = getWinningLine(board, HUMAN); // här hämtar den linjen
+                lines.forEach(function (ruta) {
+                    let winRuta = document.getElementById(String(ruta[0]) + String(ruta[1]));
+                    winRuta.style.color = "green";
+                });
+                // Möjlighet att starta om spelet.
                 button.value = "Restart";
                 button.disabled = false;
                 return;
-			}
-			if (conditionToContinue)
-				aiTurn();
-		}
-	}
-	if (gameOver(board, COMP)) {
-		let lines;
-		let ruta;
-		let msg;
-
-		if (board[0][0] == 1 && board[0][1] == 1 && board[0][2] == 1)
-			lines = [[0, 0], [0, 1], [0, 2]];
-		else if (board[1][0] == 1 && board[1][1] == 1 && board[1][2] == 1)
-			lines = [[1, 0], [1, 1], [1, 2]];
-		else if (board[2][0] == 1 && board[2][1] == 1 && board[2][2] == 1)
-			lines = [[2, 0], [2, 1], [2, 2]];
-		else if (board[0][0] == 1 && board[1][0] == 1 && board[2][0] == 1)
-			lines = [[0, 0], [1, 0], [2, 0]];
-		else if (board[0][1] == 1 && board[1][1] == 1 && board[2][1] == 1)
-			lines = [[0, 1], [1, 1], [2, 1]];
-		else if (board[0][2] == 1 && board[1][2] == 1 && board[2][2] == 1)
-			lines = [[0, 2], [1, 2], [2, 2]];
-		else if (board[0][0] == 1 && board[1][1] == 1 && board[2][2] == 1)
-			lines = [[0, 0], [1, 1], [2, 2]];
-		else if (board[2][0] == 1 && board[1][1] == 1 && board[0][2] == 1)
-			lines = [[2, 0], [1, 1], [0, 2]];
-
-		for (let i = 0; i < lines.length; i++) {
-			ruta = document.getElementById(String(lines[i][0]) + String(lines[i][1]));
-			ruta.style.color = "red";
-		}
-
-		msg = document.getElementById("status");
-		msg.innerHTML = "You lose!";
-	}
-	// Kollar om spelet är över.
-	if (tommarutor(board).length == 0 && !gameOverAll(board)) {
-		let msg = document.getElementById("status");
-		msg.innerHTML = "Draw!";
-	}
-	// Om rundan är över, ge möjligheten till spelaren att starta om.
-	if (gameOverAll(board) == true || tommarutor(board).length == 0) {
-		button.value = "Restart";
-		button.disabled = false;
-	}
+            }
+			// Säg till roboten att spela
+            if (conditionToContinue)
+                computerTurn();
+        }
+    }
+	/* Om roboten vinner, ändra färgen på vinnande linjen till röd.
+	Anledningen att if koden nedan ej är där uppe (if (move == true)) blocket 
+	är eftersom att den skulle kolla om roboten har vunnit efter spelarens tur,
+	vilket är onödigt. */
+    if (gameOver(board, COMP)) {
+        let lines = getWinningLine(board, COMP);
+        lines.forEach(function (ruta) {
+            let winRuta = document.getElementById(String(ruta[0]) + String(ruta[1]));
+            winRuta.style.color = "red";
+        });
+        let msg = document.getElementById("status");
+        msg.innerHTML = "You lose!";
+    }
+	// Om det inte finns tomma rutor och ingen vinnare finns, skriv oavgjort.
+    if (tommarutor(board).length == 0 && !gameOverAll(board)) {
+        let msg = document.getElementById("status");
+        msg.innerHTML = "Draw!";
+    }
+	// Om spelet är över, ge möjligheten att starta om
+    if (gameOverAll(board) == true || tommarutor(board).length == 0) {
+        button.value = "Restart";
+        button.disabled = false;
+    }
 }
+
+// Funktion för att få fram vinnande linje (används för att ändra färg).
+function getWinningLine(state, player) {
+    let lines = [
+        [[0, 0], [0, 1], [0, 2]], // linje 0.
+        [[1, 0], [1, 1], [1, 2]], // linje 1 osv.
+        [[2, 0], [2, 1], [2, 2]],
+        [[0, 0], [1, 0], [2, 0]],
+        [[0, 1], [1, 1], [2, 1]],
+        [[0, 2], [1, 2], [2, 2]],
+        [[0, 0], [1, 1], [2, 2]],
+        [[2, 0], [1, 1], [0, 2]]
+    ];
+	// Innebär att den loopar igenom alla linjer och går vidare till j.
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        let win = true;
+		// j tar information från arrayens array, ex [0, 0] (X och Y).
+        for (let j = 0; j < line.length; j++) {
+            let ruta = line[j];
+            let x = ruta[0];
+            let y = ruta[1];
+            if (state[x][y] != player) { // om spelare inte finns i en av vinnande linjer, avbryt.
+                win = false;
+                break;
+            }
+        }
+        if (win) { // Om något kallar på funktionen och det finns en vinnande linje, ge information om linjen.
+            return line;
+        }
+    }
+    return [];
+}
+
 
 // Starta om spelet
 function restartBtn(button) {
 	if (button.value == "Start AI") {
-		aiTurn();
+		computerTurn();
 		button.disabled = true;
 	} else if (button.value == "Restart") {
 		let htmlBoard;
