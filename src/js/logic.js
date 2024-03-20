@@ -4,6 +4,10 @@ let board = [
 	[0, 0, 0], // Y = 2
 ];
 
+let playerName1 = localStorage.getItem('player1');
+let noti = document.getElementById("notify");
+noti.textContent = `Du börjar ${playerName1}`
+
 let HUMAN = -1;
 let COMP = +1;
 let difficulty = 3;
@@ -157,7 +161,9 @@ function computerTurn() {
 	let x, y;
 	let move;
 	let ruta;
-
+    let playerName1 = localStorage.getItem('player1');
+    let noti = document.getElementById("notify");
+    noti.textContent = `Din tur ${playerName1}`
 	// Om det bara finns tomma rutor (Spelare valde att roboten skulle starta) så väljer roboten en ruta av rena slumpen.
 	if (tommarutor(board).length == 9) {
 		x = parseInt(Math.random() * 3);
@@ -178,9 +184,10 @@ function computerTurn() {
 
 // Funktion för att behandla spelarens ruta (som spelaren tröck på).
 function clickedruta(ruta) {
+    let playerName1 = localStorage.getItem('player1');
     let noti = document.getElementById("notify");
     let button = document.getElementById("btn-restart");
-    noti.textContent = "Din tur"
+    noti.textContent = `Din tur ${playerName1}`
     button.disabled = true;
     let conditionToContinue = gameOverAll(board) == false && tommarutor(board).length > 0;
 	// Om spelet är igång, hämta information om den ruta spelaren klickade på och ändra till X
@@ -271,8 +278,9 @@ function getWinningLine(state, player) {
 
 // Starta om spelet
 function restartBtn(button) {
+    let playerName1 = localStorage.getItem('player1');
     let noti = document.getElementById("notify");
-    noti.textContent = "Du börjar"
+    noti.textContent = `Du börjar ${playerName1}`
 	if (button.value == "AI Startar") {
 		computerTurn();
 		button.disabled = true;
@@ -302,8 +310,9 @@ function clearBoardAndRedirect() {
 }
 
 function clearBoard() {
+    let playerName1 = localStorage.getItem('player1');
     let noti = document.getElementById("notify");
-    noti.textContent = "Du börjar"
+    noti.textContent = `Din tur ${playerName1}`
     for (let x = 0; x < 3; x++) {
         for (let y = 0; y < 3; y++) {
             board[x][y] = 0;
