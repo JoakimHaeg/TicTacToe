@@ -28,17 +28,25 @@
                     <input type="button" class="btn animate-this" value="Mot en kompis!" id="btnKompis" onclick="showFormD()"/>
                     <input type="button" class="btn animate-this" value="Mot en dator!" id="btnDator" onclick="showFormS()"/>
                 </div>
-                <div class="animate-this form-container">
+                <div class="form-container">
                         <input class="solo" type="text" placeholder="Ange ditt namn, spelare 1">
                         <input class="duo" type="text" placeholder="Ange ditt namn, spelare 2">
                 </div>
+                <h2 class="txt2">
+                    Välj svårighetsgrad
+                </h2>
+                <div class="btn-diff">
+                    <input class="btn easy" type="button" value="Enkelt" onclick="diffE()">
+                    <input class="btn medium" type="button" value="Medium" onclick="diffM()">
+                    <input class="btn hard" type="button" value="Svårt" onclick="diffH()">
+            </div>
                 <div class="btn-fort">
-                    <input type="button" class="btn animate-this" value="Forsätt"  onclick="fortsatt()"/>
+                    <input type="button" class="btn" value="Forsätt"  onclick="fortsatt()"/>
                 </div>
-                <div class="animate-this button" id="btnPvC">
+                <div class="button" id="btnPvC">
                     <a href="/html/game.html">start game</a>
                 </div>
-                <div class="animate-this button" id="btnPvP">
+                <div class="button" id="btnPvP">
                     <a href="/html/gamePvP.html">start game</a>
                 </div>
             </div>

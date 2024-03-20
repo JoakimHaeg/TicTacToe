@@ -5,6 +5,14 @@
     left: 26.5%;
 }
 
+.txt2{
+    display: none;
+    position: absolute;
+    font-size: 200%;
+    top: 50%;
+    left: 43.5%;
+}
+
 .btn-container {
     position: absolute;
     top: 35%;
@@ -70,6 +78,14 @@
 .solo:focus,
 .duo:focus {
     border-color: #ccc; /* Adjust focus border color as needed */
+}
+
+.btn-diff{
+    display: none;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .btn-fort {

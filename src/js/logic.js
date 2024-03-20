@@ -4,111 +4,21 @@ let board = [
 	[0, 0, 0], // Y = 2
 ];
 
-let playerName1 = localStorage.getItem('player1');
-let noti = document.getElementById("notify");
-noti.textContent = `Du börjar ${playerName1}`
-
 let HUMAN = -1;
 let COMP = +1;
-let difficulty = 3;
-/* Funktion som kollar det bästa resultatet för minimax algoritmen, 
-datorn tänker vad resultatet blir efter varenda drag som den gör. */
-function evaluate(state) {
-	let score = 0;
-
-	if (gameOver(state, COMP)) { // Om datorn har det mest gynnsamma resultatet så ger den +1 i poäng
-		score = +1;
-	} 
-	else if (gameOver(state, HUMAN)) { // Om spelaren har det mest gynnsamma resultatet så ger den -1 i poäng
-		score = -1;
-	} else { // Annars 0
-		score = 0;
-	}
-	// Returnerar resultatet till den som fråga.
-	return score;
-}
-
-// Funktion som kollar om det finns en vinnare
-function gameOver(state, player) {
-	let win_state = [
-		[state[0][0], state[0][1], state[0][2]],
-		[state[1][0], state[1][1], state[1][2]],
-		[state[2][0], state[2][1], state[2][2]],
-		[state[0][0], state[1][0], state[2][0]],
-		[state[0][1], state[1][1], state[2][1]],
-		[state[0][2], state[1][2], state[2][2]],
-		[state[0][0], state[1][1], state[2][2]],
-		[state[2][0], state[1][1], state[0][2]],
-	]; // Alla möjliga resultat
-	/* Om en linje innehåller samma spelare så returnerar den true 
-	(Någon har vunnit, den som har vunnit kollas vid gameOverAll).
-	Ex, när i = 0 och j = 0, kollar den om det finns en spelare där, sedan forsätter den.
-	Om det finns en spelare på vardera ruta i linjen så returnerar den true då filled har blivit 3. */
-	for (let i = 0; i < 8; i++) {
-		let line = win_state[i];
-		let filled = 0;
-		for (let j = 0; j < 3; j++) {
-			if (line[j] == player)
-				filled++;
-		}
-		if (filled == 3)
-			return true;
-	}
-	return false;
-}
-
-/* Här kollar man om spelaren eller datorn har vunnit, om inte, returnera false, alltså spelet forsätter. */
-function gameOverAll(state) {
-	return gameOver(state, HUMAN) || gameOver(state, COMP);
-}
-/* Här skapar man en array av alla tomma rutor med korresponderande x och y värde. */
-function tommarutor(state) {
-	let rutor = [];
-	for (let x = 0; x < 3; x++) {
-		for (let y = 0; y < 3; y++) {
-			if (state[x][y] == 0)
-				rutor.push([x, y]);
-		}
-	}
-
-	return rutor;
-}
-
-/* Ett drag är acceptabelt om rutan är tom. */
-function validMove(x, y) {
-	try {
-		if (board[x][y] == 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	} catch (e) {
-		return false;
-	}
-}
-
-/* Funktion som kollar ifall om ett drag är acceptabelt, om inte så kommer inget placeras på rutan. */
-function setMove(x, y, player) {
-	if (validMove(x, y)) {
-		board[x][y] = player;
-		return true;
-	}
-	else {
-		return false;
-	}
-}
+let difficulty;
 
 // Ren jävla magi, funktion som använder sig av algoritmen "minimax" vilket undersöker spelets djup.
 function minimax(state, depth, player) {
     let best;
+    difficulty = localStorage.getItem('diff');
 	// Justera djupet beroende på vilken svårighetsgrad spelaren har valt.
     let maxDepth = 0;
-    if (difficulty === 1) {
+    if (difficulty == 1) {
         maxDepth = 1; // Easy.
-    } else if (difficulty === 2) {
+    } else if (difficulty == 2) {
         maxDepth = 5; // Medium.
-    } else if (difficulty === 3) {
+    } else if (difficulty == 3) {
         maxDepth = 9; // Hard.
     }
 
@@ -156,6 +66,96 @@ function minimax(state, depth, player) {
 	// Returnerar det bästa draget som hittades
     return best;
 }
+
+// Funktion som kollar om det finns en vinnare
+function gameOver(state, player) {
+	let win_state = [
+		[state[0][0], state[0][1], state[0][2]],
+		[state[1][0], state[1][1], state[1][2]],
+		[state[2][0], state[2][1], state[2][2]],
+		[state[0][0], state[1][0], state[2][0]],
+		[state[0][1], state[1][1], state[2][1]],
+		[state[0][2], state[1][2], state[2][2]],
+		[state[0][0], state[1][1], state[2][2]],
+		[state[2][0], state[1][1], state[0][2]],
+	]; // Alla möjliga resultat
+	/* Om en linje innehåller samma spelare så returnerar den true 
+	(Någon har vunnit, den som har vunnit kollas vid gameOverAll).
+	Ex, när i = 0 och j = 0, kollar den om det finns en spelare där, sedan forsätter den.
+	Om det finns en spelare på vardera ruta i linjen så returnerar den true då filled har blivit 3. */
+	for (let i = 0; i < 8; i++) {
+		let line = win_state[i];
+		let filled = 0;
+		for (let j = 0; j < 3; j++) {
+			if (line[j] == player)
+				filled++;
+		}
+		if (filled == 3)
+			return true;
+	}
+	return false;
+}
+
+/* Här kollar man om spelaren eller datorn har vunnit, om inte, returnera false, alltså spelet forsätter. */
+function gameOverAll(state) {
+	return gameOver(state, HUMAN) || gameOver(state, COMP);
+}
+
+/* Funktion som kollar det bästa resultatet för minimax algoritmen, 
+datorn tänker vad resultatet blir efter varenda drag som den gör. */
+function evaluate(state) {
+	let score = 0;
+
+	if (gameOver(state, COMP)) { // Om datorn har det mest gynnsamma resultatet så ger den +1 i poäng
+		score = +1;
+	} 
+	else if (gameOver(state, HUMAN)) { // Om spelaren har det mest gynnsamma resultatet så ger den -1 i poäng
+		score = -1;
+	} else { // Annars 0
+		score = 0;
+	}
+	// Returnerar resultatet till den som fråga.
+	return score;
+}
+
+/* Här skapar man en array av alla tomma rutor med korresponderande x och y värde. */
+function tommarutor(state) {
+	let rutor = [];
+	for (let x = 0; x < 3; x++) {
+		for (let y = 0; y < 3; y++) {
+			if (state[x][y] == 0)
+				rutor.push([x, y]);
+		}
+	}
+
+	return rutor;
+}
+
+/* Ett drag är acceptabelt om rutan är tom. */
+function validMove(x, y) {
+	try {
+		if (board[x][y] == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	} catch (e) {
+		return false;
+	}
+}
+
+/* Funktion som kollar ifall om ett drag är acceptabelt, om inte så kommer inget placeras på rutan. */
+function setMove(x, y, player) {
+	if (validMove(x, y)) {
+		board[x][y] = player;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 // Funktion för att behandla datorns rutor.
 function computerTurn() {
 	let x, y;
@@ -199,6 +199,9 @@ function clickedruta(ruta) {
             ruta.innerHTML = "X";
             // Kollar om spelaren har vunnit efter hens tur.
             if (gameOver(board, HUMAN)) {
+                let playerName1 = localStorage.getItem('player1');
+                let noti = document.getElementById("notify");
+                noti.textContent = `Grattis ${playerName1}`
                 let msg = document.getElementById("status");
                 msg.innerHTML = "You win!";
                 // Om spelaren vinner, ändra färgen på vinnande linjen till grön.
@@ -227,11 +230,17 @@ function clickedruta(ruta) {
             let winRuta = document.getElementById(String(ruta[0]) + String(ruta[1]));
             winRuta.style.color = "red";
         });
+        let playerName1 = localStorage.getItem('player1');
+        let noti = document.getElementById("notify");
+        noti.textContent = `Stackars ${playerName1}`
         let msg = document.getElementById("status");
         msg.innerHTML = "You lose!";
     }
 	// Om det inte finns tomma rutor och ingen vinnare finns, skriv oavgjort.
     if (tommarutor(board).length == 0 && !gameOverAll(board)) {
+        let playerName1 = localStorage.getItem('player1');
+        let noti = document.getElementById("notify");
+        noti.textContent = `Oavgjort ${playerName1}`
         let msg = document.getElementById("status");
         msg.innerHTML = "Draw!";
     }
