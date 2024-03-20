@@ -80,7 +80,11 @@
     transform: translateX(-50%);
 }
 
-#btnStartContainer {
+#btnPvC {
+    display: none;
+}
+
+#btnPvP {
     display: none;
 }
 

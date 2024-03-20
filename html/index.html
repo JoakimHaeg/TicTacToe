@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/src/css/transition.css"/>
         <script src="/src/js/homePage.js" defer></script>
         <script src="/src/js/logic.js" defer ></script>
+        <script src="/src/js/player.js" defer></script>
     </head>
 
     <body data-barba="wrapper">
@@ -24,20 +25,21 @@
                     Välkommen till tre i rad, vill du spela mot en dator eller en kompis?
                 </h2>
                 <div class="btn-container">
-                    <input type="button" class="btn animate-this" value="Mot en kompis!" id="btnKompis" onclick="showForm()"/>
-                    <input type="button" class="btn animate-this" value="Mot en dator!" id="btnDator" onclick="showForm()"/>
+                    <input type="button" class="btn animate-this" value="Mot en kompis!" id="btnKompis" onclick="showFormD()"/>
+                    <input type="button" class="btn animate-this" value="Mot en dator!" id="btnDator" onclick="showFormS()"/>
                 </div>
                 <div class="animate-this form-container">
-                    <form action="">
                         <input class="solo" type="text" placeholder="Ange ditt namn, spelare 1">
                         <input class="duo" type="text" placeholder="Ange ditt namn, spelare 2">
-                    </form>
                 </div>
                 <div class="btn-fort">
                     <input type="button" class="btn animate-this" value="Forsätt"  onclick="fortsatt()"/>
                 </div>
-                <div class="animate-this button" id="btnStartContainer">
-                    <a href="/html/game.html" id="btnStart" onclick="redirect()">start game</a>
+                <div class="animate-this button" id="btnPvC">
+                    <a href="/html/game.html">start game</a>
+                </div>
+                <div class="animate-this button" id="btnPvP">
+                    <a href="/html/gamePvP.html">start game</a>
                 </div>
             </div>
         </main>

@@ -1,36 +1,47 @@
-let btnKomp = document.getElementById("btnKompis");
-let btnDator = document.getElementById("btnDator");
-let btnStart = document.getElementById("btnStart");
-let formSolo = document.querySelector(".solo");
-let formDuo = document.querySelector(".duo");
-let btnFort = document.querySelector(".btn-fort"); 
-let formContainer = document.querySelector(".form-container");
+let duo;
 
-function showForm() {
+function showFormD() {
+    duo = true
+    let formSolo = document.querySelector(".solo");
+    let formDuo = document.querySelector(".duo");
+    let btnFort = document.querySelector(".btn-fort"); 
+    let formContainer = document.querySelector(".form-container");
     formContainer.style.display = "block";
-    if (this.id === "btnKompis") {
-        formSolo.style.display = "block";
-        formDuo.style.display = "block";
-        formSolo.placeholder = "Ange namn för spelare 1";
-        formDuo.placeholder = "Ange namn för spelare 2";
-        btnFort.style.display = "flex";
-    } else if (this.id === "btnDator") {
-        formSolo.style.display = "block";
-        formDuo.style.display = "none";
-        formSolo.placeholder = "Ange ditt namn";
-        btnFort.style.display = "flex";
-    }
+    formSolo.style.display = "block";
+    formDuo.style.display = "block";
+    formSolo.placeholder = "Ange namn för spelare 1";
+    formDuo.placeholder = "Ange namn för spelare 2";
+    btnFort.style.display = "flex";
 }
 
-btnKomp.addEventListener("click", showForm);
-btnDator.addEventListener("click", showForm);
-
-function fortsatt(){
-    btnStartContainer.style.display = "block";
-}
-
-function redirect(){
-    formSolo.style.display = "none";
+function showFormS() {
+    duo = false
+    let formSolo = document.querySelector(".solo");
+    let formDuo = document.querySelector(".duo");
+    let btnFort = document.querySelector(".btn-fort"); 
+    let formContainer = document.querySelector(".form-container");
+    formContainer.style.display = "block";
+    formSolo.placeholder = "Ange ditt namn";
+    formSolo.style.display = "block";
     formDuo.style.display = "none";
-    btnFort.style.display = "none";
+    btnFort.style.display = "flex";
+}
+
+function fortsatt() {
+    let formSolo = document.querySelector(".solo");
+    let formDuo = document.querySelector(".duo");
+    if (formSolo.value.trim() !== "" && formDuo.value.trim() !== "" && duo) {
+        btnPvP.style.display = "block";
+        let player1Name = formSolo.value.trim();
+        let player2Name = formDuo.value.trim();
+        localStorage.setItem('player1', player1Name);
+        localStorage.setItem('player2', player2Name);
+
+    } else if (formSolo.value.trim() !== "" && !duo) {
+        btnPvC.style.display = "block";
+        let player1Name = formSolo.value.trim();
+        localStorage.setItem('player1', player1Name);
+        let player2Name = "Datorn";
+        localStorage.setItem('player2', player2Name);
+    }
 }

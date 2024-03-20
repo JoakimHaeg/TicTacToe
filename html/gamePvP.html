@@ -6,9 +6,9 @@
         <link rel="stylesheet" href="/src/css/gameCont.css"/>
         <link rel="stylesheet" href="/src/css/transition.css"/>
         <link rel="stylesheet" href="/src/css/homeTXT.css"/>
+        <script src="/src/js/player.js" defer></script>
         <script src="/src/js/homePage.js"></script>
         <script src="/src/js/logic.js" defer></script>
-        <script src="/src/js/player.js" defer></script>
     </head>
 
     <body data-barba="wrapper">
@@ -22,24 +22,24 @@
                     <h1 class="title animate-this">
                         Tre I Rad
                     </h1>
-                    <div id="rutaContainer" class="title animate-this">
-                        <div id="00" rutaIndex="00" onclick="clickedruta(this)" class="ruta"></div><!-- Top left-->
-                        <div id="01" rutaIndex="01" onclick="clickedruta(this)" class="ruta"></div>
-                        <div id="02" rutaIndex="02" onclick="clickedruta(this)" class="ruta"></div> <!-- Top Right-->
-                        <div id="10" rutaIndex="10" onclick="clickedruta(this)"  class="ruta"></div>
-                        <div id="11" rutaIndex="11" onclick="clickedruta(this)"  class="ruta"></div>
-                        <div id="12" rutaIndex="12" onclick="clickedruta(this)"  class="ruta"></div>
-                        <div id="20" rutaIndex="20" onclick="clickedruta(this)"  class="ruta"></div> <!-- Bottom Left-->
-                        <div id="21" rutaIndex="21" onclick="clickedruta(this)"  class="ruta"></div>
-                        <div id="22" rutaIndex="22" onclick="clickedruta(this)"  class="ruta"></div> <!-- Bottom Right-->
+                    <div id="rutaContainer">
+                        <div rutaIndex="0" class="ruta"></div><!-- Top left-->
+                        <div rutaIndex="1" class="ruta"></div>
+                        <div rutaIndex="2" class="ruta"></div> <!-- Top Right-->
+                        <div rutaIndex="3" class="ruta"></div>
+                        <div rutaIndex="4" class="ruta"></div>
+                        <div rutaIndex="5" class="ruta"></div>
+                        <div rutaIndex="6" class="ruta"></div> <!-- Bottom Left-->
+                        <div rutaIndex="7" class="ruta"></div>
+                        <div rutaIndex="8" class="ruta"></div> <!-- Bottom Right-->
                     </div>
                     <div>
                         <h3 id="status" class="stat"></h3> <!-- Vems tur det är och/eller om någon har vunnit-->
                     </div>
-                    <h3 id="notify" class="animate-this dogas">Du börjar<h3>
-                    <input type="button" class="animate-this restart" value="AI Startar" id="btn-restart" onclick="restartBtn(this)"/>
+                    <input type="button" class="animate-this restart" value="start game" id="btnStart" onclick="startGame(this)"/>
                     <div class="animate-this button">
-                        <a href="/html/index.html" id="homePageLink" onclick="clearBoardAndRedirect()">return to home page</a>
+                        <a href="/html/index.html" id="dog" onclick="clearGame()">return to home page</a>
+
                     </div>
                     
                 </div>

@@ -178,7 +178,9 @@ function computerTurn() {
 
 // Funktion för att behandla spelarens ruta (som spelaren tröck på).
 function clickedruta(ruta) {
+    let noti = document.getElementById("notify");
     let button = document.getElementById("btn-restart");
+    noti.textContent = "Din tur"
     button.disabled = true;
     let conditionToContinue = gameOverAll(board) == false && tommarutor(board).length > 0;
 	// Om spelet är igång, hämta information om den ruta spelaren klickade på och ändra till X
@@ -269,7 +271,9 @@ function getWinningLine(state, player) {
 
 // Starta om spelet
 function restartBtn(button) {
-	if (button.value == "Start AI") {
+    let noti = document.getElementById("notify");
+    noti.textContent = "Du börjar"
+	if (button.value == "AI Startar") {
 		computerTurn();
 		button.disabled = true;
 	} else if (button.value == "Restart") {
@@ -281,29 +285,30 @@ Exempelvis i början så är x = 0 och y = 0, därav tömms rutan 00. */
 			for (let y = 0; y < 3; y++) {
 				board[x][y] = 0;
 				htmlBoard = document.getElementById(String(x) + String(y));
-				htmlBoard.style.color = "#444";
+				htmlBoard.style.color = "#FFF";
 				htmlBoard.innerHTML = "";
 			}
 		}
-		button.value = "Start AI";
+		button.value = "AI Startar";
 		msg = document.getElementById("status");
 		msg.innerHTML = "";
 	}
 }
 
-// När man trycker på "go back to home page" så behöver man nollställa spelets nuvarande
+// När man trycker på "go back to home page" så behöver man nollställa spelets nuvarande status
 function clearBoardAndRedirect() {
-    clearBoard(); // Call the function to clear the board
+    clearBoard();
 
-    // Manually redirect to the href specified in the anchor tag
 }
 
 function clearBoard() {
+    let noti = document.getElementById("notify");
+    noti.textContent = "Du börjar"
     for (let x = 0; x < 3; x++) {
         for (let y = 0; y < 3; y++) {
             board[x][y] = 0;
             let htmlBoard = document.getElementById(String(x) + String(y));
-            htmlBoard.style.color = "#444";
+            htmlBoard.style.color = "#FFF";
             htmlBoard.innerHTML = "";
         }
     }
