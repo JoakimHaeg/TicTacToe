@@ -3,8 +3,9 @@ let statusInfo = document.querySelector("#status");
 let urlParams = new URLSearchParams(window.location.search);
 let playerName1 = localStorage.getItem('player1');
 let playerName2 = localStorage.getItem('player2');
+let btn = document.getElementById("btnStart");
 
-let playerName = [playerName1, playerName2]
+let playerName = [playerName1, playerName2];
 
 console.log("Player Name 1:", playerName1);
 console.log("Player Name 2:", playerName2);
@@ -25,6 +26,8 @@ let currentPlayer = ["X", playerName[0]]
 let active = true;
 
 function startGame(){
+    if (btn.value == "start game") {
+        btn.value = "Restart"
     rutor = document.querySelectorAll(".ruta");
     statusInfo = document.querySelector("#status");
     playerName1 = localStorage.getItem('player1');
@@ -33,6 +36,10 @@ function startGame(){
     currentPlayer = ["X", playerName[0]]
     rutor.forEach(ruta => ruta.addEventListener("click", rutaClicked)) // "Loopar" igenom alla rutor och ger dom en addEventListener med ett click event och en funktion rutaClicked()
     statusInfo.textContent = `${currentPlayer[1]}'s tur` // Vems tur det är
+    active = true;
+    } else {
+        clearGame()
+    }
 }
 
 function rutaClicked(){
@@ -73,6 +80,12 @@ function checkWinner(){
     
         if (a === b && b === c) { //om alla värden har samma värde så vinner man
             roundWon = true;
+            let winRuta1 = document.getElementById(String(winCondition[0]));
+            let winRuta2 = document.getElementById(String(winCondition[1]));
+            let winRuta3 = document.getElementById(String(winCondition[2]));
+            winRuta1.style.color = "green";
+            winRuta2.style.color = "green";
+            winRuta3.style.color = "green";
             break;
         }
     }
@@ -94,13 +107,17 @@ function clearGame() {
     clear();
 }
 
-
-
 function clear() {
+    for (let i = 0; i < 9; i++) {
+        let square = document.getElementById(i.toString());
+        if (square) {
+            square.style.color = "#FFF";
+        }
+    }
+    btn.value = "start game"
     gameState = ["", "", "", "", "", "", "", "", ""];
     rutor.forEach(ruta => ruta.textContent = "");
     currentPlayer = ["X", playerName[1]];
     statusInfo.textContent = ``;
-    active = true;
-
+    active = false;
 }
