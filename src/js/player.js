@@ -6,6 +6,8 @@ let playerName2 = localStorage.getItem('player2');
 let btn = document.getElementById("btnStart");
 
 let playerName = [playerName1, playerName2];
+let spelarRuta = "X"
+let spelarInfo = playerName[0]
 
 console.log("Player Name 1:", playerName1);
 console.log("Player Name 2:", playerName2);
@@ -26,6 +28,7 @@ let currentPlayer = ["X", playerName[0]]
 let active = true;
 
 function startGame(){
+    btn = document.getElementById("btnStart");
     if (btn.value == "start game") {
         btn.value = "Restart"
     rutor = document.querySelectorAll(".ruta");
@@ -33,7 +36,7 @@ function startGame(){
     playerName1 = localStorage.getItem('player1');
     playerName2 = localStorage.getItem('player2');
     playerName = [playerName1, playerName2]
-    currentPlayer = ["X", playerName[0]]
+    currentPlayer = [spelarRuta, spelarInfo]
     rutor.forEach(ruta => ruta.addEventListener("click", rutaClicked)) // "Loopar" igenom alla rutor och ger dom en addEventListener med ett click event och en funktion rutaClicked()
     statusInfo.textContent = `${currentPlayer[1]}'s tur` // Vems tur det är
     active = true;
@@ -92,6 +95,8 @@ function checkWinner(){
 
     if(roundWon){ //om det finns en vinnare
         let statusInfo = document.querySelector("#status");
+        spelarRuta = (currentPlayer[0] == "X") ? "O" : "X";
+        spelarInfo = (currentPlayer[1] == playerName1) ? playerName2 : playerName1;
         statusInfo.textContent = `${crt} vann` //skriv vem som vann (spelare som precis körde)
         active = false;
     }
@@ -109,9 +114,9 @@ function clearGame() {
 
 function clear() {
     for (let i = 0; i < 9; i++) {
-        let square = document.getElementById(i.toString());
-        if (square) {
-            square.style.color = "#FFF";
+        let rutorna = document.getElementById(i.toString());
+        if (rutorna) {
+            rutorna.style.color = "#FFF";
         }
     }
     btn.value = "start game"

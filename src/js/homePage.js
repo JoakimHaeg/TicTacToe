@@ -1,5 +1,8 @@
 let duo;
 let diff;
+let easy;
+let medium;
+let hard;
 
 function showFormD() {
     duo = true
@@ -39,16 +42,43 @@ function showFormS() {
 }
 
 function diffE() {
+    easy = document.querySelector(".easy")
+    medium = document.querySelector(".medium")
+    hard = document.querySelector(".hard")
+    easy.style.background = "white";
+    easy.style.color = "#161616";
+    medium.style.background = "#161616";
+    medium.style.color = "white";
+    hard.style.background = "#161616";
+    hard.style.color = "white";
     diff = 1;
     localStorage.setItem('diff', diff);
 }
 
 function diffM() {
+    easy = document.querySelector(".easy")
+    medium = document.querySelector(".medium")
+    hard = document.querySelector(".hard")
+    easy.style.background = "#161616";
+    easy.style.color = "white";
+    medium.style.background = "white";
+    medium.style.color = "#161616";
+    hard.style.background = "#161616";
+    hard.style.color = "white";
     diff = 2;
     localStorage.setItem('diff', diff);
 }
 
 function diffH() {
+    easy = document.querySelector(".easy")
+    medium = document.querySelector(".medium")
+    hard = document.querySelector(".hard")
+    easy.style.background = "#161616";
+    easy.style.color = "white";
+    medium.style.background = "#161616";
+    medium.style.color = "white";
+    hard.style.background = "white";
+    hard.style.color = "#161616";
     diff = 3;
     localStorage.setItem('diff', diff);
 }

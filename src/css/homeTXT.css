@@ -14,6 +14,7 @@
 }
 
 .btn-container {
+    cursor: pointer;
     position: absolute;
     top: 35%;
     left: 50%;
@@ -59,7 +60,6 @@
     color: white;
     border: 1px solid white;
     padding: 12px 20px; /* Adjust padding as needed */
-    text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 14px; /* Adjust font size as needed */
     transition: 0.3s;
@@ -81,6 +81,7 @@
 }
 
 .btn-diff{
+    cursor: pointer;
     display: none;
     position: absolute;
     top: 60%;
@@ -89,6 +90,7 @@
 }
 
 .btn-fort {
+    cursor: pointer;
     display: none;
     position: absolute;
     top: 60%;
@@ -103,20 +105,3 @@
 #btnPvP {
     display: none;
 }
-
-/*.txt{
-    all: unset; 
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: Arial, Helvetica, sans-serif;
-    text-decoration: none;
-    color: white;
-    border: 1px solid white;
-    padding: 24px 40px;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-size: 10px;
-    transition: 0.3s;
-}*/
